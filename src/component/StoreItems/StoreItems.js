@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Formatcurrency } from "../../utilities/formatcurrency/Formatcurrency";
 import { Button } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // const quantity = 1;
 function StoreItems({ id, name, price, imgUrl }) {
@@ -15,21 +15,18 @@ function StoreItems({ id, name, price, imgUrl }) {
   } = useShoppingCart()
 
  
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+
   const quantity = getItemQuantity(id);
-  //  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
-  // quantity === 1 ? setButtonDisabled(false): setButtonDisabled(true)
-  let isButtonDisabled = false
+  useEffect(() => {
+    if(quantity === 1){
+      setButtonDisabled(true)
+    } else {
+      setButtonDisabled(false)
+    }
+  },[quantity])
 
-  if(quantity === 1){
-      isButtonDisabled = true
-  }else{
-      isButtonDisabled = false
-  }
-
-
-
-  console.log(quantity)
   return (
     <Card className='h-100'>
       <Card.Img
